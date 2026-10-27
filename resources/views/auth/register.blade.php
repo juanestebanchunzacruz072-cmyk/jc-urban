@@ -10,10 +10,10 @@
             <div class="jc-card p-4 p-md-5 shadow-lg">
                 <div class="text-center mb-4">
                     <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 68px; width: 68px; object-fit: contain; border-radius: 8px;" class="mb-2 shadow">
-                    <div class="jc-logo mb-1">
-                        <span class="logo-jc">JC</span><span class="logo-urban">URBAN</span>
+                    <div class="jc-logo mb-2">
+                        <span class="logo-jc">JC</span><span class="logo-urban text-dark" style="color: #000000 !important;">URBAN</span>
                     </div>
-                    <h3 class="fw-bold text-white mb-1">Crea tu Cuenta de Cliente</h3>
+                    <h3 class="fw-bold mb-1" style="color: #0f172a;">Crea tu Cuenta de Cliente</h3>
                     <p class="text-muted small">Únete al club exclusivo de JC URBAN y accede a lo mejor en relojería y perfumes</p>
                 </div>
 
@@ -35,7 +35,7 @@
                     @csrf
 
                     <!-- Sección: Datos Personales -->
-                    <h6 class="text-warning text-uppercase fw-bold letter-spacing-1 mb-3">
+                    <h6 class="text-uppercase fw-bold letter-spacing-1 mb-3" style="color: #cca028;">
                         <i class="bi bi-person-badge me-2"></i>1. Datos Personales
                     </h6>
                     <div class="row g-3 mb-4">
@@ -109,7 +109,7 @@
                     </div>
 
                     <!-- Sección: Ubicación y Entrega -->
-                    <h6 class="text-warning text-uppercase fw-bold letter-spacing-1 mb-3 pt-2 border-top border-secondary">
+                    <h6 class="text-uppercase fw-bold letter-spacing-1 mb-3 pt-3 border-top" style="color: #cca028; border-color: #e2e8f0 !important;">
                         <i class="bi bi-geo-alt me-2"></i>2. Dirección de Envío
                     </h6>
                     <div class="row g-3 mb-4">
@@ -155,7 +155,7 @@
                     </div>
 
                     <!-- Sección: Seguridad -->
-                    <h6 class="text-warning text-uppercase fw-bold letter-spacing-1 mb-3 pt-2 border-top border-secondary">
+                    <h6 class="text-uppercase fw-bold letter-spacing-1 mb-3 pt-3 border-top" style="color: #cca028; border-color: #e2e8f0 !important;">
                         <i class="bi bi-shield-lock me-2"></i>3. Seguridad
                     </h6>
                     <div class="row g-3 mb-4">

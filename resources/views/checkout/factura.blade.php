@@ -62,7 +62,7 @@
                         <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 52px; width: 52px; object-fit: contain; border-radius: 6px;">
                         <div>
                             <div class="jc-logo mb-1">
-                                <span class="logo-jc fs-4">JC</span><span class="logo-urban fs-4">URBAN</span>
+                                <span class="logo-jc fs-4">JC</span><span class="logo-urban fs-4 text-dark" style="color: #000000 !important;">URBAN</span>
                             </div>
                             <p class="text-muted small mb-0">NIT: 901.458.789-1</p>
                             <p class="text-muted small mb-0">Tienda de Alta Relojería y Perfumería de Lujo</p>

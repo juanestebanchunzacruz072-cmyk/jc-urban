@@ -10,10 +10,10 @@
             <div class="jc-card p-4 p-md-5 shadow-lg">
                 <div class="text-center mb-4">
                     <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 68px; width: 68px; object-fit: contain; border-radius: 8px;" class="mb-2 shadow">
-                    <div class="jc-logo mb-1">
-                        <span class="logo-jc">JC</span><span class="logo-urban">URBAN</span>
+                    <div class="jc-logo mb-2">
+                        <span class="logo-jc">JC</span><span class="logo-urban text-dark" style="color: #000000 !important;">URBAN</span>
                     </div>
-                    <h4 class="fw-bold text-white mb-1">Bienvenido de Vuelta</h4>
+                    <h4 class="fw-bold mb-1" style="color: #0f172a;">Bienvenido de Vuelta</h4>
                     <p class="text-muted small">Ingresa tus credenciales para acceder</p>
                 </div>
 
