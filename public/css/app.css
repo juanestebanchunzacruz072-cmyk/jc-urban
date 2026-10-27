@@ -1,24 +1,24 @@
 /* ==========================================================================
-   JC URBAN - LUXURY BLACK & GOLD THEME (CSS)
+   JC URBAN - LUXURY WHITE & GOLD STOREFRONT THEME (CSS)
    ========================================================================== */
 
 :root {
-    --jc-gold: #D4AF37;
-    --jc-gold-light: #F3E5AB;
-    --jc-gold-hover: #b5952f;
-    --jc-gold-gradient: linear-gradient(135deg, #fce085 0%, #D4AF37 50%, #8c7322 100%);
-    --jc-gold-glow: 0 0 25px rgba(212, 175, 55, 0.35);
+    --jc-gold: #cca028;
+    --jc-gold-light: #fef08a;
+    --jc-gold-hover: #b58e22;
+    --jc-gold-gradient: linear-gradient(135deg, #fcd34d 0%, #cca028 50%, #92400e 100%);
+    --jc-gold-glow: 0 0 25px rgba(204, 160, 40, 0.35);
 
-    --jc-black: #0c0d0e;
-    --jc-black-soft: #141619;
-    --jc-black-card: #1b1e22;
-    --jc-black-card-hover: #22262b;
-    --jc-border: #2a2e35;
-    --jc-border-gold: rgba(212, 175, 55, 0.35);
+    --jc-body-bg: #ffffff;
+    --jc-navbar-bg: #000000;
+    --jc-card-bg: #ffffff;
+    --jc-card-border: #f1f5f9;
+    --jc-border: #e2e8f0;
+    --jc-border-gold: rgba(204, 160, 40, 0.4);
 
-    --jc-text: #f0f2f5;
-    --jc-text-muted: #8e95a0;
-    --jc-text-dim: #5c6370;
+    --jc-text: #0f172a;
+    --jc-text-muted: #64748b;
+    --jc-text-dim: #94a3b8;
 
     --jc-radius: 12px;
     --jc-radius-sm: 8px;
@@ -26,7 +26,7 @@
 }
 
 body {
-    background-color: var(--jc-black);
+    background-color: var(--jc-body-bg);
     color: var(--jc-text);
     font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
@@ -44,10 +44,10 @@ main {
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: var(--jc-black);
+    background: #f8fafc;
 }
 ::-webkit-scrollbar-thumb {
-    background: #333942;
+    background: #cbd5e1;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -55,20 +55,19 @@ main {
 }
 
 /* ==========================================================================
-   NAVBAR
+   NAVBAR (EXACTO A LAS IMÁGENES: NEGRO TOTAL CON DETALLES DORADOS)
    ========================================================================== */
 .jc-navbar {
-    background: rgba(12, 13, 14, 0.95);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid var(--jc-border);
-    padding: 0.85rem 0;
+    background: #000000 !important;
+    border-bottom: 1px solid #18181b;
+    padding: 0.9rem 0;
     transition: var(--jc-transition);
     z-index: 1030;
 }
 .jc-navbar.scrolled {
-    background: rgba(10, 11, 12, 0.98);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-    border-bottom: 1px solid var(--jc-border-gold);
+    background: #000000 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(204, 160, 40, 0.3);
 }
 
 .jc-logo {
@@ -244,16 +243,17 @@ main {
    CARDS & GRIDS
    ========================================================================== */
 .jc-card {
-    background: var(--jc-black-card);
-    border: 1px solid var(--jc-border);
+    background: #ffffff;
+    border: 1px solid #eef2f6;
     border-radius: var(--jc-radius);
     transition: var(--jc-transition);
     overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 .jc-card:hover {
     border-color: var(--jc-border-gold);
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 30px rgba(204, 160, 40, 0.18);
 }
 
 .product-card {
@@ -924,4 +924,147 @@ main {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   CATEGORY SHOWCASE CARDS (EXACTO AL SCREENSHOT DEL USUARIO)
+   ========================================================================== */
+.cat-showcase-section {
+    background: #ffffff;
+    padding: 3rem 0 5rem;
+}
+.cat-showcase-heading {
+    color: #000000;
+    font-size: 2.8rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -0.5px;
+    margin-bottom: 3.5rem;
+}
+.cat-showcase-card {
+    background: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+}
+.cat-showcase-card:hover {
+    border-color: rgba(204, 160, 40, 0.45);
+    box-shadow: 0 10px 45px rgba(204, 160, 40, 0.25);
+    transform: translateY(-6px);
+}
+.cat-showcase-img-box {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+.cat-showcase-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+.cat-showcase-card:hover .cat-showcase-img {
+    transform: scale(1.05);
+}
+.cat-showcase-name {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+/* Pill filters for white background */
+.pill-filter {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    padding: 0.45rem 1.1rem;
+    border-radius: 20px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--jc-transition);
+}
+.pill-filter:hover {
+    background: #e2e8f0;
+    color: #000;
+}
+.pill-filter.active {
+    background: var(--jc-gold);
+    color: #000000;
+    border-color: var(--jc-gold);
+    box-shadow: 0 3px 10px rgba(204, 160, 40, 0.3);
+}
+
+/* Product cards for white theme */
+.product-card-white {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: var(--jc-radius);
+    overflow: hidden;
+    transition: var(--jc-transition);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.product-card-white:hover {
+    border-color: var(--jc-border-gold);
+    box-shadow: 0 10px 30px rgba(204, 160, 40, 0.2);
+    transform: translateY(-4px);
+}
+.product-card-white .product-img-box {
+    background: #ffffff;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 1.5rem;
+}
+.product-card-white .product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+.product-card-white:hover .product-img {
+    transform: scale(1.06);
+}
+.product-card-white .product-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #f8fafc;
+}
+.product-card-white .product-title {
+    color: #0f172a;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-bottom: 0.35rem;
+    line-height: 1.35;
+}
+.product-card-white .product-title:hover {
+    color: var(--jc-gold);
+}
+.product-card-white .product-price {
+    color: var(--jc-gold);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-top: auto;
 }

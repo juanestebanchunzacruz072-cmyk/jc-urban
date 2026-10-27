@@ -9,18 +9,18 @@
     <div class="mb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('catalogo.index') }}" class="text-warning text-decoration-none">Inicio</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">{{ $categoria->nombre }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('catalogo.index') }}" class="text-warning text-decoration-none fw-semibold">Inicio</a></li>
+                <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">{{ $categoria->nombre }}</li>
             </ol>
         </nav>
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 pb-3 border-bottom border-secondary">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 pb-3 border-bottom border-light-subtle">
             <div>
                 <span class="badge badge-jc-gold text-uppercase mb-2">Colección Oficial</span>
-                <h1 class="fw-bold text-white mb-1">{{ $categoria->nombre }}</h1>
+                <h1 class="fw-bold text-dark mb-1">{{ $categoria->nombre }}</h1>
                 <p class="text-muted mb-0">{{ $categoria->descripcion }}</p>
             </div>
             <div class="text-muted small">
-                Mostrando <strong class="text-white">{{ $productos->count() }}</strong> productos disponibles
+                Mostrando <strong class="text-dark">{{ $productos->count() }}</strong> productos disponibles
             </div>
         </div>
     </div>
@@ -42,9 +42,9 @@
 
     <!-- Grid de Productos -->
     @if($productos->isEmpty())
-        <div class="text-center py-5 jc-card my-4">
+        <div class="text-center py-5 white-box-card my-4">
             <i class="bi bi-box2 display-3 text-muted"></i>
-            <h5 class="text-white mt-3">No hay productos en esta categoría por el momento</h5>
+            <h5 class="text-dark mt-3">No hay productos en esta categoría por el momento</h5>
             <p class="text-muted small">Intenta seleccionando otra subcategoría o vuelve más tarde.</p>
             <a href="{{ route('catalogo.categoria', $categoria->id) }}" class="btn-jc-outline mt-2">
                 Ver todos los {{ $categoria->nombre }}
@@ -58,9 +58,9 @@
                         ?? 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80';
                 @endphp
                 <div class="col">
-                    <div class="jc-card product-card">
-                        <div class="product-img-wrapper">
-                            <a href="{{ route('catalogo.detalle', $producto->id) }}">
+                    <div class="product-card-white">
+                        <div class="product-img-box position-relative">
+                            <a href="{{ route('catalogo.detalle', $producto->id) }}" class="w-100 h-100 d-flex align-items-center justify-content-center">
                                 <img src="{{ $img }}"
                                      alt="{{ $producto->nombre }}"
                                      class="product-img"
@@ -77,7 +77,7 @@
                             <a href="{{ route('catalogo.detalle', $producto->id) }}" class="product-title">
                                 {{ $producto->nombre }}
                             </a>
-                            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary">
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-light-subtle">
                                 <div>
                                     <span class="text-muted small d-block">Precio</span>
                                     <div class="product-price">${{ number_format($producto->precio, 0, ',', '.') }}</div>
@@ -104,11 +104,11 @@
          TAMBIÉN TE PUEDE GUSTAR (HU-09)
     ═══════════════════════════════════════════════════════════ -->
     @if($productosRelacionados->isNotEmpty())
-        <div class="mt-5 pt-4 border-top border-secondary">
+        <div class="mt-5 pt-4 border-top border-light-subtle">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <span class="badge badge-jc-gold mb-1"><i class="bi bi-stars me-1"></i>Recomendados</span>
-                    <h3 class="fw-bold text-white mb-0">También te puede gustar</h3>
+                    <h3 class="fw-bold text-dark mb-0">También te puede gustar</h3>
                 </div>
             </div>
 

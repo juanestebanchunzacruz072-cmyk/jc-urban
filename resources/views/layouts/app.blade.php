@@ -53,25 +53,25 @@
 
         <!-- Nav Links -->
         <div class="collapse navbar-collapse" id="navbarMain">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                 <li class="nav-item">
-                    <a class="nav-link jc-nav-link" href="{{ route('catalogo.index') }}">
-                        <i class="bi bi-grid-3x3-gap me-1"></i>Catálogo
+                    <a class="nav-link jc-nav-link text-white" href="{{ route('catalogo.index') }}">
+                        Inicio
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link jc-nav-link" href="{{ route('catalogo.categoria', 1) }}">
-                        <i class="bi bi-watch me-1"></i>Relojes
+                <li class="nav-item dropdown">
+                    <a class="nav-link jc-nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorías
                     </a>
+                    <ul class="dropdown-menu jc-dropdown shadow-lg">
+                        <li><a class="dropdown-item jc-dropdown-item" href="{{ route('catalogo.categoria', 1) }}"><i class="bi bi-watch me-2 text-warning"></i>Relojes</a></li>
+                        <li><a class="dropdown-item jc-dropdown-item" href="{{ route('catalogo.categoria', 2) }}"><i class="bi bi-droplet me-2 text-warning"></i>Perfumes</a></li>
+                        <li><a class="dropdown-item jc-dropdown-item" href="{{ route('catalogo.categoria', 3) }}"><i class="bi bi-bag me-2 text-warning"></i>Accesorios</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link jc-nav-link" href="{{ route('catalogo.categoria', 2) }}">
-                        <i class="bi bi-droplet me-1"></i>Perfumes
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link jc-nav-link" href="{{ route('catalogo.categoria', 3) }}">
-                        <i class="bi bi-bag me-1"></i>Accesorios
+                    <a class="nav-link jc-nav-link text-white" href="#contacto">
+                        Contacto
                     </a>
                 </li>
             </ul>
@@ -80,7 +80,7 @@
             <div class="d-flex align-items-center gap-3">
                 <!-- Carrito -->
                 <button class="btn-cart-desktop position-relative d-none d-lg-flex" type="button" data-bs-toggle="offcanvas" data-bs-target="#carritoOffcanvas" aria-label="Ver carrito">
-                    <i class="bi bi-bag-heart-fill"></i>
+                    <i class="bi bi-cart3 fs-5"></i>
                     <span class="cart-badge" id="cartBadgeDesktop">0</span>
                 </button>
 
@@ -116,11 +116,8 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn-jc-outline">
-                        <i class="bi bi-person me-1"></i>Ingresar
-                    </a>
-                    <a href="{{ route('register') }}" class="btn-jc-gold d-none d-lg-inline-flex">
-                        <i class="bi bi-person-plus me-1"></i>Registrarse
+                    <a href="{{ route('login') }}" class="btn-jc-outline px-3 py-2 fw-bold">
+                        Iniciar Sesión
                     </a>
                 @endauth
             </div>

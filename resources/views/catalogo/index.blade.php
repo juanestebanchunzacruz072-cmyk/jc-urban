@@ -5,18 +5,65 @@
 
 @section('content')
 <!-- ═══════════════════════════════════════════════════════════
-     HERO BANNER CON VIDEO OFICIAL
+     CATEGORÍAS (EXACTO AL SCREENSHOT DEL USUARIO)
 ═══════════════════════════════════════════════════════════ -->
-<section class="hero-section position-relative py-5 overflow-hidden" style="background: radial-gradient(circle at 50% 30%, #1c2026 0%, #0c0d0e 85%); border-bottom: 1px solid var(--jc-border);">
+<section class="cat-showcase-section">
+    <div class="container">
+        <h1 class="cat-showcase-heading">Categorías</h1>
+
+        <div class="row g-4 justify-content-center">
+            <!-- 1. Relojes -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 1) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/relojes.jpg') }}"
+                             alt="Relojes"
+                             class="cat-showcase-img">
+                    </div>
+                    <h2 class="cat-showcase-name">Relojes</h2>
+                </a>
+            </div>
+
+            <!-- 2. Perfumes -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 2) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/perfumes.jpg') }}"
+                             alt="Perfumes"
+                             class="cat-showcase-img">
+                    </div>
+                    <h2 class="cat-showcase-name">Perfumes</h2>
+                </a>
+            </div>
+
+            <!-- 3. Accesorios (con aura dorada en hover exacto al screenshot) -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 3) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/accesorios.jpg') }}"
+                             alt="Accesorios"
+                             class="cat-showcase-img">
+                    </div>
+                    <h2 class="cat-showcase-name">Accesorios</h2>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO BANNER CON VIDEO OFICIAL DE RELOJES
+═══════════════════════════════════════════════════════════ -->
+<section class="hero-section position-relative py-5 overflow-hidden" style="background: radial-gradient(circle at 50% 30%, #1c2026 0%, #0c0d0e 85%); border-top: 1px solid #e2e8f0; border-bottom: 1px solid var(--jc-border);">
     <div class="container py-md-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 text-center text-lg-start">
                 <span class="badge badge-jc-gold text-uppercase letter-spacing-2 mb-3">
                     <i class="bi bi-gem me-1"></i>JC URBAN EXCLUSIVE
                 </span>
-                <h1 class="display-3 fw-bolder text-white mb-3" style="letter-spacing: -1px; line-height: 1.15;">
+                <h2 class="display-4 fw-bolder text-white mb-3" style="letter-spacing: -1px; line-height: 1.15;">
                     Estilo sin <span class="logo-jc">Límites</span>
-                </h1>
+                </h2>
                 <p class="lead text-muted mb-4" style="font-size: 1.15rem; max-width: 580px;">
                     Descubre nuestro catálogo de puro lujo y exclusividad. Relojería suiza de alta precisión, perfumería de autor y accesorios de diseñador con garantía total.
                 </p>
@@ -59,52 +106,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     CATEGORÍAS DESTACADAS (HU-06)
-═══════════════════════════════════════════════════════════ -->
-<section class="py-5">
-    <div class="container py-md-4">
-        <div class="text-center mb-5">
-            <span class="text-warning text-uppercase fw-bold letter-spacing-2 small">Nuestras Líneas</span>
-            <h2 class="fw-bolder text-white mt-1">Explora por Categoría</h2>
-            <div style="width: 60px; height: 3px; background: var(--jc-gold-gradient); margin: 12px auto;"></div>
-        </div>
-
-        <div class="row g-4">
-            @php
-                $catImages = [
-                    1 => 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-                    2 => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=80',
-                    3 => 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80',
-                ];
-            @endphp
-
-            @forelse($categorias as $categoria)
-                <div class="col-md-4">
-                    <a href="{{ route('catalogo.categoria', $categoria->id) }}" class="cat-card">
-                        <img src="{{ $catImages[$categoria->id] ?? 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80' }}"
-                             alt="{{ $categoria->nombre }}"
-                             class="cat-card-bg">
-                        <div class="cat-card-overlay"></div>
-                        <div class="cat-card-content">
-                            <span class="badge badge-jc-gold mb-2">Colección</span>
-                            <h3 class="cat-card-title">{{ $categoria->nombre }}</h3>
-                            <p class="cat-card-desc">{{ $categoria->descripcion }}</p>
-                            <span class="btn-jc-gold btn-sm">
-                                Ver Colección <i class="bi bi-arrow-right ms-1"></i>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            @empty
-                <div class="col-12 text-center py-5">
-                    <p class="text-muted">No hay categorías disponibles en este momento.</p>
-                </div>
-            @endforelse
         </div>
     </div>
 </section>

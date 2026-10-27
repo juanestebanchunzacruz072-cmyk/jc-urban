@@ -8,13 +8,13 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('catalogo.index') }}" class="text-warning text-decoration-none">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('catalogo.index') }}" class="text-warning text-decoration-none fw-semibold">Inicio</a></li>
             <li class="breadcrumb-item">
-                <a href="{{ route('catalogo.categoria', $producto->id_categoria) }}" class="text-warning text-decoration-none">
+                <a href="{{ route('catalogo.categoria', $producto->id_categoria) }}" class="text-warning text-decoration-none fw-semibold">
                     {{ $producto->categoria?->nombre }}
                 </a>
             </li>
-            <li class="breadcrumb-item active text-white" aria-current="page">{{ $producto->nombre }}</li>
+            <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">{{ $producto->nombre }}</li>
         </ol>
     </nav>
 
@@ -26,7 +26,7 @@
                     $imagenPrincipal = $producto->imagenPrincipal()?->url_imagen
                         ?? 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';
                 @endphp
-                <div class="jc-card p-3 mb-3 text-center" style="background: #111315;">
+                <div class="p-3 mb-3 text-center rounded-4 shadow-sm" style="background: #ffffff; border: 1px solid #eef2f6;">
                     <img id="mainProductImage"
                          src="{{ $imagenPrincipal }}"
                          alt="{{ $producto->nombre }}"
@@ -40,7 +40,7 @@
                         @foreach($producto->imagenes as $img)
                             <img src="{{ $img->url_imagen }}"
                                  alt="Miniatura"
-                                 class="rounded border border-secondary p-1 thumbnail-selector"
+                                 class="rounded border border-light-subtle p-1 thumbnail-selector bg-white"
                                  style="width: 75px; height: 75px; object-fit: cover; cursor: pointer;"
                                  onclick="cambiarImagenPrincipal('{{ $img->url_imagen }}', this)">
                         @endforeach
@@ -57,14 +57,14 @@
                 </span>
             @endif
 
-            <h1 class="display-6 fw-bold text-white mb-2">{{ $producto->nombre }}</h1>
+            <h1 class="display-6 fw-bold text-dark mb-2">{{ $producto->nombre }}</h1>
             <p class="text-muted small mb-3">
-                Categoría: <span class="text-white">{{ $producto->categoria?->nombre }}</span> |
-                Subcategoría: <span class="text-white">{{ $producto->subcategoria?->nombre ?? 'General' }}</span>
+                Categoría: <span class="text-dark fw-semibold">{{ $producto->categoria?->nombre }}</span> |
+                Subcategoría: <span class="text-dark fw-semibold">{{ $producto->subcategoria?->nombre ?? 'General' }}</span>
             </p>
 
             <!-- Precio -->
-            <div class="d-flex align-items-baseline gap-3 mb-4 p-3 rounded-3" style="background: var(--jc-black-card); border-left: 4px solid var(--jc-gold);">
+            <div class="d-flex align-items-baseline gap-3 mb-4 p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid var(--jc-gold);">
                 <span class="fs-2 fw-bolder text-warning">
                     ${{ number_format($producto->precio, 0, ',', '.') }}
                 </span>
@@ -111,11 +111,11 @@
             @endif
 
             <!-- Descripción Detallada -->
-            <div class="jc-card p-4 mb-4">
-                <h5 class="text-white fw-bold mb-3 border-bottom border-secondary pb-2">
+            <div class="white-box-card p-4 mb-4 mt-0">
+                <h5 class="text-dark fw-bold mb-3 border-bottom border-light-subtle pb-2">
                     <i class="bi bi-info-circle me-2 text-warning"></i>Descripción del Producto
                 </h5>
-                <div class="text-muted" style="line-height: 1.7;">
+                <div class="text-secondary" style="line-height: 1.7;">
                     {!! nl2br(e($producto->descripcion)) !!}
                 </div>
             </div>
@@ -123,19 +123,19 @@
             <!-- Garantía y Entrega JC URBAN -->
             <div class="row g-3">
                 <div class="col-sm-6">
-                    <div class="jc-card p-3 h-100 d-flex gap-3 align-items-center">
+                    <div class="white-box-card p-3 h-100 d-flex gap-3 align-items-center mt-0">
                         <i class="bi bi-shield-check fs-2 text-warning"></i>
                         <div>
-                            <h6 class="text-white fw-bold mb-0">Garantía JC URBAN</h6>
+                            <h6 class="text-dark fw-bold mb-0">Garantía JC URBAN</h6>
                             <small class="text-muted">6 meses maquinaria</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="jc-card p-3 h-100 d-flex gap-3 align-items-center">
+                    <div class="white-box-card p-3 h-100 d-flex gap-3 align-items-center mt-0">
                         <i class="bi bi-truck fs-2 text-warning"></i>
                         <div>
-                            <h6 class="text-white fw-bold mb-0">Envío Asegurado</h6>
+                            <h6 class="text-dark fw-bold mb-0">Envío Asegurado</h6>
                             <small class="text-muted">Entrega 2-4 días hábiles</small>
                         </div>
                     </div>
