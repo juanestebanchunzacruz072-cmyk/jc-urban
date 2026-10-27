@@ -19,11 +19,15 @@ class ProductoController extends Controller
     public function index(Request $request): View
     {
         $productosQuery = Producto::with(['marca', 'categoria', 'subcategoria', 'imagenes'])
-            ->orderBy('nombre');
+            ->orderBy('id', 'desc');
 
-        // Búsqueda
+        // Búsqueda por nombre o referencia/SKU
         if ($request->filled('buscar')) {
-            $productosQuery->where('nombre', 'LIKE', '%'.$request->buscar.'%');
+            $term = '%'.$request->buscar.'%';
+            $productosQuery->where(function ($q) use ($term) {
+                $q->where('nombre', 'LIKE', $term)
+                    ->orWhere('sku', 'LIKE', $term);
+            });
         }
 
         // Filtro por categoría
@@ -31,10 +35,22 @@ class ProductoController extends Controller
             $productosQuery->where('id_categoria', $request->categoria);
         }
 
-        $productos = $productosQuery->paginate(15)->withQueryString();
-        $categorias = Categoria::where('activo', true)->get();
+        // Filtro por subcategoría
+        if ($request->filled('subcategoria')) {
+            $productosQuery->where('id_subcategoria', $request->subcategoria);
+        }
 
-        return view('admin.productos.index', compact('productos', 'categorias'));
+        // Filtro por marca
+        if ($request->filled('marca')) {
+            $productosQuery->where('id_marca', $request->marca);
+        }
+
+        $productos = $productosQuery->paginate(20)->withQueryString();
+        $categorias = Categoria::where('activo', true)->orderBy('nombre')->get();
+        $subcategorias = Subcategoria::where('activo', true)->orderBy('nombre')->get();
+        $marcas = Marca::where('activo', true)->orderBy('nombre')->get();
+
+        return view('admin.productos.index', compact('productos', 'categorias', 'subcategorias', 'marcas'));
     }
 
     /** Formulario para crear un producto (HU-19). */
