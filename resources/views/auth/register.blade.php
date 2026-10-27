@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Registro de Cliente')
+@section('title', 'Crea tu Cuenta')
 @section('meta_description', 'Crea una cuenta en JC URBAN para disfrutar de compras exclusivas, envíos garantizados y seguimiento de pedidos.')
 
 @section('content')
@@ -13,7 +13,7 @@
                     <div class="jc-logo mb-2">
                         <span class="logo-jc">JC</span><span class="logo-urban text-dark" style="color: #000000 !important;">URBAN</span>
                     </div>
-                    <h3 class="fw-bold mb-1" style="color: #0f172a;">Crea tu Cuenta de Cliente</h3>
+                    <h3 class="fw-bold mb-1" style="color: #0f172a;">Crea tu Cuenta</h3>
                     <p class="text-muted small">Únete al club exclusivo de JC URBAN y accede a lo mejor en relojería y perfumes</p>
                 </div>
 
