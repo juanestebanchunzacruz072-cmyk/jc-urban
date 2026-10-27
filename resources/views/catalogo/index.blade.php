@@ -80,6 +80,9 @@
                              class="cat-showcase-img">
                     </div>
                     <h3 class="cat-showcase-name">Relojes</h3>
+                    <span class="btn-cat-action">
+                        Ver Relojes <i class="bi bi-arrow-right"></i>
+                    </span>
                 </a>
             </div>
 
@@ -92,6 +95,9 @@
                              class="cat-showcase-img">
                     </div>
                     <h3 class="cat-showcase-name">Perfumes</h3>
+                    <span class="btn-cat-action">
+                        Ver Perfumes <i class="bi bi-arrow-right"></i>
+                    </span>
                 </a>
             </div>
 
@@ -104,6 +110,9 @@
                              class="cat-showcase-img">
                     </div>
                     <h3 class="cat-showcase-name">Accesorios</h3>
+                    <span class="btn-cat-action">
+                        Ver Accesorios <i class="bi bi-arrow-right"></i>
+                    </span>
                 </a>
             </div>
         </div>

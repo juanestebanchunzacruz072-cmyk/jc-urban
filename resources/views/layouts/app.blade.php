@@ -116,8 +116,8 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn-jc-outline px-3 py-2 fw-bold">
-                        Iniciar Sesión
+                    <a href="{{ route('login') }}" class="btn-jc-outline fw-bold">
+                        <i class="bi bi-person-circle me-2"></i>Iniciar Sesión
                     </a>
                 @endauth
             </div>
