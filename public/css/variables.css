@@ -1,0 +1,18 @@
+/* public/css/variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --gold: #D4AF37;
+    --gold-hover: #b5952f;
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray: #f5f5f5;
+    --text-gray: #666666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
