@@ -7,6 +7,9 @@
     <meta name="description" content="@yield('meta_description', 'JC URBAN - Tienda de relojes, perfumes y accesorios de lujo. Las mejores marcas: Rolex, Richard Mille, Lattafa y más.')">
     <title>@yield('title', 'JC URBAN') | Lujo & Exclusividad</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+
     <!-- Google Fonts: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +35,9 @@
 <nav class="navbar navbar-expand-lg jc-navbar sticky-top" id="mainNavbar">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand jc-logo" href="{{ route('catalogo.index') }}">
-            <span class="logo-jc">JC</span><span class="logo-urban">URBAN</span>
+        <a class="navbar-brand jc-logo d-flex align-items-center gap-2" href="{{ route('catalogo.index') }}">
+            <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 38px; width: 38px; object-fit: contain; border-radius: 6px;">
+            <span><span class="logo-jc">JC</span><span class="logo-urban">URBAN</span></span>
         </a>
 
         <!-- Toggler + Carrito para móvil -->
@@ -193,8 +197,9 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <div class="footer-brand">
-                    <span class="logo-jc">JC</span><span class="logo-urban">URBAN</span>
+                <div class="footer-brand d-flex align-items-center gap-2 mb-2">
+                    <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 42px; width: 42px; object-fit: contain; border-radius: 6px;">
+                    <span><span class="logo-jc">JC</span><span class="logo-urban">URBAN</span></span>
                 </div>
                 <p class="footer-tagline">Lujo. Exclusividad. Estilo.</p>
                 <p class="footer-desc">

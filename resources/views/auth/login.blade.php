@@ -9,7 +9,8 @@
         <div class="col-md-6 col-lg-5 col-xl-4">
             <div class="jc-card p-4 p-md-5 shadow-lg">
                 <div class="text-center mb-4">
-                    <div class="jc-logo mb-2">
+                    <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 68px; width: 68px; object-fit: contain; border-radius: 8px;" class="mb-2 shadow">
+                    <div class="jc-logo mb-1">
                         <span class="logo-jc">JC</span><span class="logo-urban">URBAN</span>
                     </div>
                     <h4 class="fw-bold text-white mb-1">Bienvenido de Vuelta</h4>

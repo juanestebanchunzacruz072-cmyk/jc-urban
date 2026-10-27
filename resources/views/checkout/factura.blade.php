@@ -58,13 +58,15 @@
             <div class="jc-card p-4 p-md-5">
                 <!-- Encabezado de Factura -->
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start border-bottom border-secondary pb-4 mb-4 gap-3">
-                    <div>
-                        <div class="jc-logo mb-2">
-                            <span class="logo-jc fs-3">JC</span><span class="logo-urban fs-3">URBAN</span>
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="height: 52px; width: 52px; object-fit: contain; border-radius: 6px;">
+                        <div>
+                            <div class="jc-logo mb-1">
+                                <span class="logo-jc fs-4">JC</span><span class="logo-urban fs-4">URBAN</span>
+                            </div>
+                            <p class="text-muted small mb-0">NIT: 901.458.789-1</p>
+                            <p class="text-muted small mb-0">Tienda de Alta Relojería y Perfumería de Lujo</p>
                         </div>
-                        <p class="text-muted small mb-0">NIT: 901.458.789-1</p>
-                        <p class="text-muted small mb-0">Tienda de Alta Relojería y Perfumería de Lujo</p>
-                        <p class="text-muted small mb-0">Medellín / Bogotá - Colombia</p>
                     </div>
                     <div class="text-sm-end">
                         <span class="badge badge-jc-gold fs-6 mb-2">

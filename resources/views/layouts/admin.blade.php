@@ -6,6 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') | JC URBAN</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+
     <!-- Google Fonts: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -508,8 +511,13 @@
     <aside class="admin-sidebar">
         <!-- Logo -->
         <div class="sidebar-brand">
-            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand-title">JC URBAN</a>
-            <div class="sidebar-brand-sub">PANEL DE ADMINISTRACIÓN</div>
+            <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+                <img src="{{ asset('img/logo.png') }}" alt="JC URBAN" style="width: 38px; height: 38px; object-fit: contain; border-radius: 4px;">
+                <div>
+                    <span class="sidebar-brand-title">JC URBAN</span>
+                    <div class="sidebar-brand-sub">PANEL DE ADMINISTRACIÓN</div>
+                </div>
+            </a>
         </div>
 
         <ul class="sidebar-menu">
