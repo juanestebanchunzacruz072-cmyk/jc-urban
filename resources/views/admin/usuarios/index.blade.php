@@ -1,78 +1,70 @@
 @extends('layouts.admin')
 
-@section('title', 'Usuarios')
-@section('page_title', 'USUARIOS')
+@section('title', 'Listado de Clientes')
+@section('page_title', 'LISTADO DE CLIENTES')
 
 @section('header_action_button')
-    <a href="{{ route('admin.dashboard') }}" class="btn-white-action">
-        <i class="bi bi-arrow-left"></i>
-        <span>VOLVER</span>
-    </a>
+    <form action="{{ route('admin.usuarios.index') }}" method="GET" class="d-flex align-items-center gap-2">
+        <input type="text"
+               name="buscar"
+               value="{{ request('buscar') }}"
+               class="form-control-jc"
+               style="width: 220px; padding: 0.45rem 0.8rem; font-size: 0.82rem; background: #fff;"
+               placeholder="Buscar cliente...">
+        <button type="submit" class="btn-sq btn-sq-gold" style="width: 38px; height: 38px; border-radius: 6px;">
+            <i class="bi bi-search text-dark fw-bold"></i>
+        </button>
+        <a href="{{ route('admin.dashboard') }}" class="btn-white-action py-2">
+            <i class="bi bi-arrow-left"></i>
+            <span>VOLVER</span>
+        </a>
+    </form>
 @endsection
 
 @section('content')
-<div class="box-card-title mb-3" style="color: #64748b;">
-    DIRECTORIO DE CLIENTES
+<div class="box-card-title mb-3" style="color: #64748b; font-size: 0.95rem;">
+    CLIENTES REGISTRADOS
 </div>
 
 <div class="white-box-card mt-0">
-    <div class="box-card-header">
-        <h2 class="box-card-title">LISTA DE USUARIOS REGISTRADOS</h2>
-        <form action="{{ route('admin.usuarios.index') }}" method="GET" class="d-flex gap-2">
-            <input type="text"
-                   name="buscar"
-                   value="{{ request('buscar') }}"
-                   class="form-control-jc"
-                   style="width: 260px; padding: 0.4rem 0.8rem; font-size: 0.82rem;"
-                   placeholder="Buscar por nombre o correo...">
-            <button type="submit" class="btn-white-action">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
-    </div>
-
     <div class="table-responsive">
         <table class="jc-admin-table">
             <thead>
                 <tr>
-                    <th>USUARIO</th>
-                    <th>CÉDULA</th>
-                    <th>EMAIL</th>
+                    <th style="width: 80px;">PERFIL</th>
+                    <th>NOMBRE COMPLETO</th>
+                    <th>CORREO ELECTRÓNICO</th>
                     <th>TELÉFONO</th>
                     <th>UBICACIÓN</th>
-                    <th>ESTADO</th>
+                    <th style="width: 140px;">FECHA REGISTRO</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($usuarios as $usr)
+                    @php
+                        $inits = strtoupper(substr($usr->name, 0, 1) . substr($usr->apellido ?? '', 0, 1));
+                    @endphp
                     <tr>
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="user-avatar-circle" style="width: 32px; height: 32px; font-size: 0.85rem;">
-                                    {{ strtoupper(substr($usr->name, 0, 1)) }}
-                                </div>
-                                <div>
-                                    <div class="fw-bold text-dark">{{ $usr->name }} {{ $usr->apellido }}</div>
-                                    <small class="text-muted" style="font-size: 0.72rem;">Registrado: {{ $usr->created_at->format('d/m/Y') }}</small>
-                                </div>
+                            <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--jc-gold); color: #000; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; justify-content: center;">
+                                {{ $inits ?: 'CL' }}
                             </div>
                         </td>
-                        <td class="text-dark small fw-semibold">
-                            {{ $usr->cedula ?: '-' }}
+                        <td class="fw-bold text-dark">
+                            {{ $usr->name }} {{ $usr->apellido }}
                         </td>
                         <td class="text-dark small">
                             {{ $usr->email }}
                         </td>
-                        <td class="text-muted small">
-                            {{ $usr->telefono ?: '-' }}
+                        <td class="text-dark small">
+                            {{ $usr->telefono ?: 'Pendiente' }}
                         </td>
-                        <td class="text-secondary small">
-                            {{ $usr->ciudad ?: 'Medellín' }} ({{ $usr->barrio ?: 'El Poblado' }})
-                            <div class="text-muted" style="font-size: 0.72rem;">{{ $usr->direccion }}</div>
+                        <td class="text-dark small">
+                            {{ $usr->ciudad ?: 'Neiva' }}, {{ $usr->direccion ?: ($usr->barrio ?: 'Pendiente') }}
                         </td>
                         <td>
-                            <span class="pill-status {{ $usr->activo ? 'pill-status-active' : 'pill-status-inactive' }}">
-                                {{ $usr->activo ? 'ACTIVO' : 'INACTIVO' }}
+                            <span style="background: #18181b; color: #ffffff; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.76rem; font-weight: 700; display: inline-block;">
+                                {{ $usr->created_at ? $usr->created_at->format('d/m/Y') : '23/10/2026' }}
                             </span>
                         </td>
                     </tr>

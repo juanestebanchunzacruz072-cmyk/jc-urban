@@ -93,11 +93,25 @@ class CatalogoAdminController extends Controller
     // ─── MARCAS ────────────────────────────────────────────────────
 
     /** Lista las marcas (HU-20). */
-    public function marcasIndex(): View
+    public function marcasIndex(Request $request): View
     {
-        $marcas = Marca::withCount('productos')->orderBy('nombre')->get();
+        $query = Marca::withCount('productos');
 
-        return view('admin.catalogo.marcas', compact('marcas'));
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%'.$request->buscar.'%')
+                ->orWhere('descripcion', 'like', '%'.$request->buscar.'%');
+        }
+
+        if ($request->filled('categoria')) {
+            $query->whereHas('productos', function ($q) use ($request) {
+                $q->where('id_categoria', $request->categoria);
+            });
+        }
+
+        $marcas = $query->orderBy('id', 'desc')->get();
+        $categorias = Categoria::where('activo', true)->orderBy('nombre')->get();
+
+        return view('admin.catalogo.marcas', compact('marcas', 'categorias'));
     }
 
     /** Crea una nueva marca (HU-20). */

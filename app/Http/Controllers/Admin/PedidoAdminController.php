@@ -21,10 +21,16 @@ class PedidoAdminController extends Controller
         if ($request->filled('buscar')) {
             $pedidosQuery->where('id', $request->buscar);
         }
+        if ($request->filled('buscar_id')) {
+            $cleanId = ltrim(preg_replace('/[^0-9]/', '', $request->buscar_id), '0');
+            if ($cleanId !== '') {
+                $pedidosQuery->where('id', $cleanId);
+            }
+        }
 
-        // Filtro por fecha de inicio
-        if ($request->filled('fecha_inicio')) {
-            $pedidosQuery->whereDate('created_at', '>=', $request->fecha_inicio);
+        // Filtro por fecha exacta
+        if ($request->filled('fecha')) {
+            $pedidosQuery->whereDate('created_at', $request->fecha);
         }
 
         // Filtro por fecha de fin

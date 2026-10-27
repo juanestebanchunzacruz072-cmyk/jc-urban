@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Lista de Marcas')
-@section('page_title', 'LISTA DE MARCAS')
+@section('title', 'Gestión de Marcas')
+@section('page_title', 'GESTIÓN DE MARCAS')
 
 @section('header_action_button')
     <button type="button" class="btn-gold-action" data-bs-toggle="modal" data-bs-target="#modalNuevaMarca">
@@ -10,7 +10,50 @@
 @endsection
 
 @section('content')
-<!-- Tarjeta Blanca Lista de Marcas (Exacto al Screenshot 2) -->
+<!-- Tarjeta Filtros de Búsqueda de Marcas (Exacto al Screenshot 3) -->
+<div class="white-box-card mb-4 mt-0">
+    <div class="filter-card-title">
+        <i class="bi bi-funnel"></i> FILTRAR MARCAS
+    </div>
+    <form action="{{ route('admin.marcas.index') }}" method="GET">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label class="form-label-jc">BUSCAR MARCA</label>
+                <input type="text"
+                       name="buscar"
+                       value="{{ request('buscar') }}"
+                       class="form-control-jc"
+                       placeholder="Nombre de la marca...">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-jc">POR CATEGORÍA</label>
+                <select name="categoria" class="form-select-jc">
+                    <option value="">Todas las categorías</option>
+                    @foreach($categorias as $cat)
+                        <option value="{{ $cat->id }}" {{ request('categoria') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn-gold-action w-100 justify-content-center">
+                    <i class="bi bi-search"></i> Filtrar
+                </button>
+                <a href="{{ route('admin.marcas.index') }}" class="btn-white-action justify-content-center" style="padding: 0.6rem 1rem;">
+                    <i class="bi bi-x-circle"></i> Limpiar
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Subtítulo -->
+<div class="box-card-title mb-3" style="color: #64748b; font-size: 0.95rem;">
+    LISTA DE MARCAS
+</div>
+
+<!-- Tarjeta Blanca Lista de Marcas (Exacto al Screenshot 3) -->
 <div class="white-box-card mt-0">
     <div class="table-responsive">
         <table class="jc-admin-table">
