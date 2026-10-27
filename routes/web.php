@@ -74,7 +74,8 @@ Route::middleware(['auth', 'check.admin'])->prefix('admin')->name('admin.')->gro
 
     // Pedidos (HU-21, HU-22)
     Route::get('/pedidos', [PedidoAdminController::class, 'index'])->name('pedidos.index');
-    Route::get('/pedidos/{id}', [PedidoAdminController::class, 'detalle'])->name('pedidos.detalle');
+    Route::get('/pedidos/{id}', [PedidoAdminController::class, 'detalle'])->name('pedidos.show');
+    Route::get('/pedidos/{id}/detalle', [PedidoAdminController::class, 'detalle'])->name('pedidos.detalle');
     Route::patch('/pedidos/{id}/estado', [PedidoAdminController::class, 'cambiarEstado'])->name('pedidos.estado');
 
     // Usuarios/Clientes (HU-23)
