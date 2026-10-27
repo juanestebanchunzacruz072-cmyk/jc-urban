@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('marcas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 100)->unique();
+            $table->text('descripcion')->nullable();
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });

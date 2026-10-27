@@ -1,139 +1,330 @@
 @extends('layouts.admin')
 
-@section('title', 'Gestión de Productos')
-@section('page_title', 'Catálogo de Productos')
+@section('title', 'Productos')
+@section('page_title', 'PRODUCTOS')
+
+@section('header_action_button')
+    <button type="button" class="btn-gold-action" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
+        <i class="bi bi-plus-lg"></i> AGREGAR
+    </button>
+@endsection
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-    <!-- Formulario de Búsqueda y Filtro (HU-19) -->
-    <form action="{{ route('admin.productos.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1" style="max-width: 600px;">
-        <div class="input-group">
-            <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-search"></i></span>
-            <input type="text"
-                   name="buscar"
-                   value="{{ request('buscar') }}"
-                   class="form-control"
-                   placeholder="Buscar por nombre...">
+<div class="white-box-card mt-0">
+    <div class="box-card-header">
+        <h2 class="box-card-title">LISTA DE PRODUCTOS</h2>
+        <div class="d-flex gap-2">
+            <!-- Buscador rápido -->
+            <form action="{{ route('admin.productos.index') }}" method="GET" class="d-flex gap-2">
+                <input type="text"
+                       name="buscar"
+                       value="{{ request('buscar') }}"
+                       class="form-control-jc"
+                       style="width: 240px; padding: 0.4rem 0.8rem; font-size: 0.82rem;"
+                       placeholder="Buscar por nombre o ref...">
+                <button type="submit" class="btn-white-action">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
         </div>
-        <select name="categoria" class="form-select" style="max-width: 200px;" onchange="this.form.submit()">
-            <option value="">Todas las Categorías</option>
-            @foreach($categorias as $cat)
-                <option value="{{ $cat->id }}" {{ request('categoria') == $cat->id ? 'selected' : '' }}>
-                    {{ $cat->nombre }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
-        @if(request()->hasAny(['buscar', 'categoria']))
-            <a href="{{ route('admin.productos.index') }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
-        @endif
-    </form>
+    </div>
 
-    <a href="{{ route('admin.productos.crear') }}" class="btn-jc-gold">
-        <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
-    </a>
-</div>
-
-<!-- Tabla de Productos -->
-<div class="jc-card p-4">
-    @if($productos->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-box2 display-4 text-muted"></i>
-            <h6 class="text-white mt-3">No se encontraron productos</h6>
-            <p class="text-muted small">Crea un nuevo producto o ajusta los criterios de búsqueda.</p>
-        </div>
-    @else
-        <div class="table-responsive">
-            <table class="jc-table">
-                <thead>
+    <div class="table-responsive">
+        <table class="jc-admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 70px;">IMAGEN</th>
+                    <th>NOMBRE</th>
+                    <th>REF / SKU</th>
+                    <th>CATEGORÍA</th>
+                    <th>MARCA</th>
+                    <th>PRECIO</th>
+                    <th>STOCK</th>
+                    <th>ESTADO</th>
+                    <th class="text-end" style="width: 130px;">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($productos as $prod)
+                    @php
+                        $imgObj = $prod->imagenPrincipal();
+                        $imgUrl = 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=150&q=80';
+                        if ($imgObj) {
+                            $imgUrl = str_starts_with($imgObj->url_imagen, 'http')
+                                ? $imgObj->url_imagen
+                                : asset('storage/' . $imgObj->url_imagen);
+                        }
+                    @endphp
                     <tr>
-                        <th>Producto</th>
-                        <th>Marca</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Estado</th>
-                        <th class="text-end">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($productos as $prod)
-                        @php
-                            $imgObj = $prod->imagenPrincipal();
-                            $imgUrl = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=150&q=80';
-                            if ($imgObj) {
-                                $imgUrl = str_starts_with($imgObj->url_imagen, 'http')
-                                    ? $imgObj->url_imagen
-                                    : asset('storage/' . $imgObj->url_imagen);
-                            }
-                        @endphp
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="{{ $imgUrl }}"
-                                         alt="{{ $prod->nombre }}"
-                                         class="rounded"
-                                         style="width: 50px; height: 50px; object-fit: cover;">
-                                    <div>
-                                        <div class="text-white fw-bold small">{{ $prod->nombre }}</div>
-                                        <small class="text-muted">ID: #{{ $prod->id }}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-warning small fw-semibold">
-                                {{ $prod->marca?->nombre ?? 'N/A' }}
-                            </td>
-                            <td>
-                                <div class="text-white small">{{ $prod->categoria?->nombre }}</div>
-                                <small class="text-muted">{{ $prod->subcategoria?->nombre ?? '-' }}</small>
-                            </td>
-                            <td class="fw-bold text-white">
-                                ${{ number_format($prod->precio, 0, ',', '.') }}
-                            </td>
-                            <td>
-                                @if($prod->stock > 5)
-                                    <span class="badge bg-success bg-opacity-25 text-success border border-success">{{ $prod->stock }} uds</span>
-                                @elseif($prod->stock > 0)
-                                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning">{{ $prod->stock }} uds</span>
-                                @else
-                                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger">Agotado</span>
-                                @endif
-                            </td>
-                            <td>
-                                <!-- Toggle Activo / Inactivo (HU-19) -->
-                                <form action="{{ route('admin.productos.toggle', $prod->id) }}" method="POST" class="d-inline">
+                        <td>
+                            <img src="{{ $imgUrl }}"
+                                 alt="{{ $prod->nombre }}"
+                                 class="rounded"
+                                 style="width: 44px; height: 44px; object-fit: cover; background: #f1f5f9;">
+                        </td>
+                        <td class="fw-bold text-dark">
+                            {{ $prod->nombre }}
+                        </td>
+                        <td class="text-muted small">
+                            {{ $prod->sku ?? '-' }}
+                        </td>
+                        <td class="text-secondary small">
+                            {{ $prod->categoria?->nombre }} &gt; {{ $prod->subcategoria?->nombre ?? 'General' }}
+                            @if($prod->genero)
+                                ({{ $prod->genero }})
+                            @endif
+                        </td>
+                        <td class="text-dark small fw-semibold">
+                            {{ $prod->marca?->nombre ?? 'Sin marca' }}
+                        </td>
+                        <td class="fw-bold text-dark">
+                            $ {{ number_format($prod->precio, 0, ',', '.') }}
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">
+                                {{ $prod->stock }} uds
+                            </span>
+                        </td>
+                        <td>
+                            <form action="{{ route('admin.productos.toggle', $prod->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="border-0 bg-transparent p-0">
+                                    <span class="pill-status {{ $prod->activo ? 'pill-status-active' : 'pill-status-inactive' }}" style="cursor: pointer;">
+                                        {{ $prod->activo ? 'ACTIVO' : 'INACTIVO' }}
+                                    </span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-2">
+                                <button type="button"
+                                        class="btn-sq btn-sq-gold"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditarProducto{{ $prod->id }}"
+                                        title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <form action="{{ route('admin.productos.eliminar', $prod->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?')">
                                     @csrf
-                                    @method('PATCH')
-                                    <button type="submit"
-                                            class="badge {{ $prod->activo ? 'badge-jc-success' : 'badge-jc-danger' }} border-0 cursor-pointer"
-                                            title="Click para cambiar estado">
-                                        {{ $prod->activo ? 'Activo' : 'Inactivo' }}
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-sq btn-sq-red" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
-                            </td>
-                            <td class="text-end">
-                                <div class="d-inline-flex gap-2">
-                                    <a href="{{ route('admin.productos.editar', $prod->id) }}" class="btn btn-outline-info btn-sm py-1 px-2" title="Editar">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <form action="{{ route('admin.productos.eliminar', $prod->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este producto permanentemente?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" title="Eliminar">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </td>
+                    </tr>
 
-        <div class="mt-4">
-            {{ $productos->links() }}
+                    <!-- ═══════════════════════════════════════════════════════════
+                         MODAL EDITAR PRODUCTO (EXACTO AL SCREENSHOT 4)
+                    ═══════════════════════════════════════════════════════════ -->
+                    <div class="modal fade" id="modalEditarProducto{{ $prod->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content modal-content-jc">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="modal-title-jc">EDITAR PRODUCTO</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{{ route('admin.productos.actualizar', $prod->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="mb-3">
+                                        <label class="form-label-jc">Nombre del Producto *</label>
+                                        <input type="text" name="nombre" class="form-control-jc" value="{{ $prod->nombre }}" required>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label-jc">Referencia / SKU *</label>
+                                            <input type="text" name="sku" class="form-control-jc" value="{{ $prod->sku ?? 'REF-'.$prod->id }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-jc">Precio (COP) *</label>
+                                            <input type="number" name="precio" class="form-control-jc" value="{{ $prod->precio }}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label-jc">Categoría *</label>
+                                            <select name="id_categoria" class="form-select-jc" required>
+                                                @foreach($categorias as $cat)
+                                                    <option value="{{ $cat->id }}" {{ $prod->id_categoria == $cat->id ? 'selected' : '' }}>
+                                                        {{ $cat->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-jc">Subcategoría</label>
+                                            <select name="id_subcategoria" class="form-select-jc">
+                                                <option value="">Selecciona subcategoría...</option>
+                                                @foreach(\App\Models\Subcategoria::where('activo', true)->get() as $sub)
+                                                    <option value="{{ $sub->id }}" {{ $prod->id_subcategoria == $sub->id ? 'selected' : '' }}>
+                                                        {{ $sub->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label-jc">Marca *</label>
+                                                <span class="small text-muted"><input type="checkbox" checked disabled> Mostrar todas</span>
+                                            </div>
+                                            <select name="id_marca" class="form-select-jc">
+                                                <option value="">Seleccione una marca</option>
+                                                @foreach(\App\Models\Marca::where('activo', true)->get() as $m)
+                                                    <option value="{{ $m->id }}" {{ $prod->id_marca == $m->id ? 'selected' : '' }}>
+                                                        {{ $m->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-jc">Género *</label>
+                                            <select name="genero" class="form-select-jc">
+                                                <option value="Hombre" {{ $prod->genero == 'Hombre' ? 'selected' : '' }}>Hombre</option>
+                                                <option value="Mujer" {{ $prod->genero == 'Mujer' ? 'selected' : '' }}>Mujer</option>
+                                                <option value="Unisex (Ambos)" {{ $prod->genero == 'Unisex (Ambos)' ? 'selected' : '' }}>Unisex (Ambos)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label-jc">Stock *</label>
+                                        <input type="number" name="stock" class="form-control-jc" value="{{ $prod->stock }}" min="0" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label-jc">Descripción</label>
+                                        <textarea name="descripcion" class="form-control-jc" rows="4">{{ $prod->descripcion }}</textarea>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label-jc">Imagen Principal (Dejar vacío para no cambiar)</label>
+                                        <input type="file" name="imagen_principal" class="form-control-jc" accept="image/*">
+                                    </div>
+
+                                    <button type="submit" class="btn-modal-submit">
+                                        <i class="bi bi-box-arrow-down fs-5"></i> ACTUALIZAR PRODUCTO
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">
+                            No se encontraron productos registrados.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $productos->links() }}
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL AGREGAR PRODUCTO (EXACTO AL SCREENSHOT 3)
+═══════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-content-jc">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="modal-title-jc">AGREGAR PRODUCTO</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.productos.guardar') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="form-label-jc">Nombre del Producto *</label>
+                    <input type="text" name="nombre" class="form-control-jc" placeholder="Ej: Rolex Submariner Date" required>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label-jc">Referencia / SKU *</label>
+                        <input type="text" name="sku" class="form-control-jc" placeholder="Ej: REF-12345" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-jc">Precio (COP) *</label>
+                        <input type="number" name="precio" class="form-control-jc" placeholder="Ej: 1200000" required>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label-jc">Categoría *</label>
+                        <select name="id_categoria" class="form-select-jc" required>
+                            @foreach($categorias as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-jc">Subcategoría</label>
+                        <select name="id_subcategoria" class="form-select-jc">
+                            <option value="">Selecciona subcategoría...</option>
+                            @foreach(\App\Models\Subcategoria::where('activo', true)->get() as $sub)
+                                <option value="{{ $sub->id }}">{{ $sub->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label-jc">Marca *</label>
+                            <label class="small text-muted"><input type="checkbox" checked disabled> Mostrar todas</label>
+                        </div>
+                        <select name="id_marca" class="form-select-jc">
+                            <option value="">Seleccione una marca</option>
+                            @foreach(\App\Models\Marca::where('activo', true)->get() as $m)
+                                <option value="{{ $m->id }}">{{ $m->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-jc">Género *</label>
+                        <select name="genero" class="form-select-jc">
+                            <option value="Unisex (Ambos)">Unisex (Ambos)</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-jc">Stock *</label>
+                    <input type="number" name="stock" class="form-control-jc" placeholder="Ej: 5" min="0" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-jc">Descripción</label>
+                    <textarea name="descripcion" class="form-control-jc" rows="3" placeholder="Escribe los detalles del producto..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label-jc">Imagen Principal *</label>
+                    <input type="file" name="imagen_principal" class="form-control-jc" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn-modal-submit">
+                    <i class="bi bi-box-arrow-down fs-5"></i> GUARDAR PRODUCTO
+                </button>
+            </form>
         </div>
-    @endif
+    </div>
 </div>
 @endsection

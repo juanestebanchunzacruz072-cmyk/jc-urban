@@ -105,9 +105,10 @@ class CatalogoAdminController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100|unique:marcas,nombre',
+            'descripcion' => 'nullable|string',
         ], ['nombre.unique' => 'Ya existe una marca con ese nombre.']);
 
-        Marca::create($request->only(['nombre']));
+        Marca::create($request->only(['nombre', 'descripcion']));
 
         return back()->with('success', 'Marca creada exitosamente.');
     }
@@ -118,9 +119,10 @@ class CatalogoAdminController extends Controller
         $marca = Marca::findOrFail($id);
         $request->validate([
             'nombre' => 'required|string|max:100|unique:marcas,nombre,'.$id,
+            'descripcion' => 'nullable|string',
         ], ['nombre.unique' => 'Ya existe una marca con ese nombre.']);
 
-        $marca->update($request->only(['nombre']));
+        $marca->update($request->only(['nombre', 'descripcion']));
 
         return back()->with('success', 'Marca actualizada correctamente.');
     }

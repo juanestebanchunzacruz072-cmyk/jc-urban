@@ -1,124 +1,116 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestión de Pedidos')
-@section('page_title', 'Control de Pedidos')
+@section('page_title', 'GESTIÓN DE PEDIDOS')
+
+@section('header_action_button')
+    <a href="{{ route('admin.dashboard') }}" class="btn-white-action">
+        <i class="bi bi-arrow-left"></i>
+        <span>VOLVER</span>
+    </a>
+@endsection
 
 @section('content')
-<!-- Filtros y Búsqueda (HU-21) -->
-<div class="jc-card p-4 mb-4">
-    <form action="{{ route('admin.pedidos.index') }}" method="GET" class="row g-3 align-items-end">
-        <div class="col-md-3">
-            <label class="form-label">Buscar # de Pedido</label>
-            <input type="number"
-                   name="buscar"
-                   value="{{ request('buscar') }}"
-                   class="form-control"
-                   placeholder="Ej. 1, 2, 3...">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Desde</label>
-            <input type="date"
-                   name="fecha_inicio"
-                   value="{{ request('fecha_inicio') }}"
-                   class="form-control">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Hasta</label>
-            <input type="date"
-                   name="fecha_fin"
-                   value="{{ request('fecha_fin') }}"
-                   class="form-control">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Estado</label>
-            <select name="estado" class="form-select">
-                <option value="">Todos los Estados</option>
-                @foreach($estados as $est)
-                    <option value="{{ $est->id }}" {{ request('estado') == $est->id ? 'selected' : '' }}>
-                        {{ $est->nombre }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-12 d-flex justify-content-end gap-2">
-            @if(request()->hasAny(['buscar', 'fecha_inicio', 'fecha_fin', 'estado']))
-                <a href="{{ route('admin.pedidos.index') }}" class="btn btn-outline-secondary btn-sm">Limpiar Filtros</a>
-            @endif
-            <button type="submit" class="btn-jc-gold btn-sm">
-                <i class="bi bi-funnel me-1"></i>Aplicar Filtros
-            </button>
-        </div>
-    </form>
+<!-- Subtítulo -->
+<div class="box-card-title mb-3" style="color: #64748b;">
+    HISTORIAL DE PEDIDOS
 </div>
 
-<!-- Tabla de Pedidos -->
-<div class="jc-card p-4">
-    @if($pedidos->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-receipt-cutoff display-4 text-muted"></i>
-            <h6 class="text-white mt-3">No se encontraron pedidos</h6>
-            <p class="text-muted small">Ajusta los filtros o espera nuevas órdenes de clientes.</p>
-        </div>
-    @else
-        <div class="table-responsive">
-            <table class="jc-table">
-                <thead>
+<!-- Tarjeta Blanca de Pedidos (Exacto al Screenshot 5) -->
+<div class="white-box-card mt-0">
+    <div class="table-responsive">
+        <table class="jc-admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 120px;">ID PEDIDO</th>
+                    <th style="width: 220px;">CLIENTE</th>
+                    <th style="width: 140px;">FECHA</th>
+                    <th>DIRECCIÓN ENTREGA</th>
+                    <th style="width: 140px;">TOTAL</th>
+                    <th style="width: 150px;">ESTADO ACTUAL</th>
+                    <th style="width: 180px;">CAMBIAR ESTADO</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($pedidos as $pedido)
                     <tr>
-                        <th>N° Pedido</th>
-                        <th>Cliente</th>
-                        <th>Fecha & Hora</th>
-                        <th>Total</th>
-                        <th>Estado Actual</th>
-                        <th class="text-end">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pedidos as $pedido)
-                        <tr>
-                            <td>
-                                <strong class="text-warning fs-6">#PED-{{ str_pad($pedido->id, 5, '0', STR_PAD_LEFT) }}</strong>
-                            </td>
-                            <td>
-                                <div class="text-white fw-bold small">{{ $pedido->usuario->name }} {{ $pedido->usuario->apellido }}</div>
-                                <small class="text-muted">Tel: {{ $pedido->usuario->telefono }} | {{ $pedido->usuario->ciudad }}</small>
-                            </td>
-                            <td class="text-muted small">
-                                {{ $pedido->created_at->format('d/m/Y h:i A') }}
-                            </td>
-                            <td class="fw-bold text-white">
-                                ${{ number_format($pedido->total, 0, ',', '.') }}
-                            </td>
-                            <td>
-                                @php
-                                    $badgeClass = match($pedido->id_estado) {
-                                        1 => 'badge-jc-warning',
-                                        2 => 'badge-jc-info',
-                                        3 => 'badge-jc-info',
-                                        4 => 'badge-jc-primary',
-                                        5, 6 => 'badge-jc-success',
-                                        default => 'badge-secondary',
-                                    };
-                                @endphp
-                                <span class="badge {{ $badgeClass }}">
-                                    {{ $pedido->estado?->nombre ?? 'Pendiente' }}
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="{{ route('admin.pedidos.detalle', $pedido->id) }}"
-                                   class="btn-jc-outline btn-sm py-1 px-3"
-                                   title="Ver Detalle y Cambiar Estado">
-                                    <i class="bi bi-eye me-1"></i>Ver Detalle
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                        <!-- ID PEDIDO (#00008) -->
+                        <td class="fw-bold text-dark fs-6">
+                            #{{ str_pad($pedido->id, 5, '0', STR_PAD_LEFT) }}
+                        </td>
 
-        <div class="mt-4">
-            {{ $pedidos->links() }}
-        </div>
-    @endif
+                        <!-- CLIENTE -->
+                        <td class="text-dark">
+                            <span class="text-capitalize">{{ strtolower($pedido->usuario->name . ' ' . $pedido->usuario->apellido) }}</span>
+                        </td>
+
+                        <!-- FECHA (Fecha arriba, Hora abajo) -->
+                        <td>
+                            <div class="fw-bold text-dark small">{{ $pedido->created_at->format('d/m/Y') }}</div>
+                            <div class="text-muted small" style="font-size: 0.78rem;">{{ $pedido->created_at->format('H:i') }}</div>
+                        </td>
+
+                        <!-- DIRECCIÓN ENTREGA -->
+                        <td class="text-secondary small">
+                            {{ $pedido->usuario->direccion ?: 'Pendiente' }}
+                        </td>
+
+                        <!-- TOTAL -->
+                        <td class="fw-bold text-dark">
+                            $ {{ number_format($pedido->total, 0, ',', '.') }}
+                        </td>
+
+                        <!-- ESTADO ACTUAL (Pill de color exacto al screenshot 5) -->
+                        <td>
+                            @php
+                                $estadoNombre = strtoupper($pedido->estado?->nombre ?? 'PENDIENTE');
+                                $pillClass = match($estadoNombre) {
+                                    'RECIBIDO' => 'pill-status-recibido',
+                                    'ENVIADO'  => 'pill-status-enviado',
+                                    'EMPACADO' => 'pill-status-empacado',
+                                    'ENTREGADO'=> 'pill-status-entregado',
+                                    default    => 'pill-status-pendiente',
+                                };
+                            @endphp
+                            <span class="pill-status {{ $pillClass }}">
+                                {{ $estadoNombre }}
+                            </span>
+                        </td>
+
+                        <!-- CAMBIAR ESTADO (Select + Botón amarillo con check ✓) -->
+                        <td>
+                            <form action="{{ route('admin.pedidos.estado', $pedido->id) }}" method="POST" class="d-flex flex-column gap-1">
+                                @csrf
+                                @method('PATCH')
+                                <select name="id_estado" class="form-select-jc" style="padding: 0.35rem 0.6rem; font-size: 0.82rem; font-weight: 600;">
+                                    @foreach($estados as $est)
+                                        <option value="{{ $est->id }}" {{ $pedido->id_estado == $est->id ? 'selected' : '' }}>
+                                            {{ $est->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit"
+                                        class="btn-sq btn-sq-gold mt-1"
+                                        style="width: 34px; height: 30px; border-radius: 4px;"
+                                        title="Confirmar cambio de estado">
+                                    <i class="bi bi-check2 fs-5 text-dark fw-bold"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            No hay pedidos registrados en el historial.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $pedidos->links() }}
+    </div>
 </div>
 @endsection

@@ -52,6 +52,8 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:200',
+            'sku' => 'nullable|string|max:50',
+            'genero' => 'nullable|string|max:50',
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -59,16 +61,27 @@ class ProductoController extends Controller
             'id_categoria' => 'required|exists:categorias,id',
             'id_subcategoria' => 'nullable|exists:subcategorias,id',
             'imagenes.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'imagen_principal' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         $producto = Producto::create($request->only([
-            'nombre', 'descripcion', 'precio', 'stock',
+            'nombre', 'sku', 'genero', 'descripcion', 'precio', 'stock',
             'id_marca', 'id_categoria', 'id_subcategoria',
         ]));
 
-        // Procesar imágenes subidas
+        // Procesar imagen principal individual si se subió
+        if ($request->hasFile('imagen_principal')) {
+            $ruta = $request->file('imagen_principal')->store('productos', 'public');
+            ImagenProducto::create([
+                'id_producto' => $producto->id,
+                'url_imagen' => $ruta,
+                'principal' => true,
+            ]);
+        }
+
+        // Procesar imágenes múltiples subidas
         if ($request->hasFile('imagenes')) {
-            $esPrimera = true;
+            $esPrimera = ! $request->hasFile('imagen_principal');
             foreach ($request->file('imagenes') as $imagen) {
                 $rutaImagen = $imagen->store('productos', 'public');
                 ImagenProducto::create([
@@ -102,6 +115,8 @@ class ProductoController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:200',
+            'sku' => 'nullable|string|max:50',
+            'genero' => 'nullable|string|max:50',
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -109,12 +124,23 @@ class ProductoController extends Controller
             'id_categoria' => 'required|exists:categorias,id',
             'id_subcategoria' => 'nullable|exists:subcategorias,id',
             'imagenes.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'imagen_principal' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         $producto->update($request->only([
-            'nombre', 'descripcion', 'precio', 'stock',
+            'nombre', 'sku', 'genero', 'descripcion', 'precio', 'stock',
             'id_marca', 'id_categoria', 'id_subcategoria',
         ]));
+
+        if ($request->hasFile('imagen_principal')) {
+            $ruta = $request->file('imagen_principal')->store('productos', 'public');
+            ImagenProducto::where('id_producto', $producto->id)->update(['principal' => false]);
+            ImagenProducto::create([
+                'id_producto' => $producto->id,
+                'url_imagen' => $ruta,
+                'principal' => true,
+            ]);
+        }
 
         // Procesar nuevas imágenes
         if ($request->hasFile('imagenes')) {

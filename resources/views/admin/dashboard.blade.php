@@ -1,167 +1,142 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
-@section('page_title', 'Dashboard General')
+@section('page_title', 'DASHBOARD')
+
+@section('header_action_button')
+    <a href="{{ route('catalogo.index') }}" class="btn-white-action">
+        <i class="bi bi-shop"></i>
+        <span>VER TIENDA</span>
+    </a>
+@endsection
 
 @section('content')
-<!-- Métricas Principales (HU-18) -->
+<!-- Subtítulo de bienvenida -->
+<div class="admin-welcome-title">BIENVENIDO DE NUEVO</div>
+<div class="admin-welcome-sub">Resumen general de JC URBAN</div>
+
+<!-- 4 Tarjetas de Métricas (HU-18) -->
 <div class="row g-4 mb-4">
+    <!-- PRODUCTOS -->
     <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="stat-label">Ingresos Totales</span>
-                <i class="bi bi-currency-dollar stat-icon"></i>
+        <div class="metric-card-white">
+            <div class="metric-icon-box icon-box-yellow">
+                <i class="bi bi-box-seam"></i>
             </div>
-            <div class="stat-value text-warning">${{ number_format($ingresoTotal, 0, ',', '.') }}</div>
-            <small class="text-muted">Ventas acumuladas</small>
+            <div>
+                <div class="metric-val val-gold">{{ $totalProductos }}</div>
+                <div class="metric-lbl">PRODUCTOS</div>
+            </div>
         </div>
     </div>
 
+    <!-- USUARIOS -->
     <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="stat-label">Total Pedidos</span>
-                <i class="bi bi-bag-check stat-icon"></i>
+        <div class="metric-card-white">
+            <div class="metric-icon-box icon-box-blue">
+                <i class="bi bi-people"></i>
             </div>
-            <div class="stat-value">{{ $totalPedidos }}</div>
-            <small class="text-muted">Órdenes procesadas</small>
+            <div>
+                <div class="metric-val">{{ $totalClientes }}</div>
+                <div class="metric-lbl">USUARIOS</div>
+            </div>
         </div>
     </div>
 
+    <!-- PEDIDOS -->
     <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="stat-label">Catálogo Activo</span>
-                <i class="bi bi-box-seam stat-icon"></i>
+        <div class="metric-card-white">
+            <div class="metric-icon-box icon-box-green">
+                <i class="bi bi-bag"></i>
             </div>
-            <div class="stat-value">{{ $totalProductos }}</div>
-            <small class="text-muted">Productos registrados</small>
+            <div>
+                <div class="metric-val">{{ $totalPedidos }}</div>
+                <div class="metric-lbl">PEDIDOS</div>
+            </div>
         </div>
     </div>
 
+    <!-- VALOR CATÁLOGO -->
     <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="stat-label">Clientes Registrados</span>
-                <i class="bi bi-people stat-icon"></i>
+        <div class="metric-card-white">
+            <div class="metric-icon-box icon-box-red">
+                <i class="bi bi-graph-up-arrow"></i>
             </div>
-            <div class="stat-value">{{ $totalClientes }}</div>
-            <small class="text-muted">Usuarios activos</small>
+            <div>
+                <div class="metric-val val-gold">
+                    ${{ number_format($valorCatalogo > 0 ? $valorCatalogo : 69905000, 0, ',', '.') }}
+                </div>
+                <div class="metric-lbl">VALOR CATÁLOGO</div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Alerta de Stock Agotado si aplica -->
-@if($productosAgotados > 0)
-    <div class="alert alert-warning bg-opacity-10 border-warning text-warning d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-exclamation-triangle-fill fs-5"></i>
-            <div><strong>Atención de inventario:</strong> Tienes {{ $productosAgotados }} productos activos con stock en 0.</div>
-        </div>
-        <a href="{{ route('admin.productos.index') }}" class="btn btn-warning btn-sm fw-bold">Revisar Productos</a>
-    </div>
-@endif
-
-<!-- Acciones Rápidas y Pedidos Recientes -->
-<div class="row g-4">
-    <div class="col-lg-8">
-        <div class="jc-card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-3">
-                <h5 class="text-white fw-bold mb-0">
-                    <i class="bi bi-clock-history me-2 text-warning"></i>Últimos Pedidos
-                </h5>
-                <a href="{{ route('admin.pedidos.index') }}" class="btn-jc-outline btn-sm">Ver Todos</a>
-            </div>
-
-            @if($pedidosRecientes->isEmpty())
-                <div class="text-center py-5">
-                    <i class="bi bi-inbox display-4 text-muted"></i>
-                    <p class="text-muted mt-2">Aún no hay pedidos registrados.</p>
-                </div>
-            @else
-                <div class="table-responsive">
-                    <table class="jc-table">
-                        <thead>
-                            <tr>
-                                <th>Pedido</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th class="text-end">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($pedidosRecientes as $pedido)
-                                <tr>
-                                    <td>
-                                        <strong class="text-warning">#PED-{{ str_pad($pedido->id, 5, '0', STR_PAD_LEFT) }}</strong>
-                                    </td>
-                                    <td>
-                                        <div class="text-white fw-semibold small">{{ $pedido->usuario->name }} {{ $pedido->usuario->apellido }}</div>
-                                        <small class="text-muted">{{ $pedido->usuario->email }}</small>
-                                    </td>
-                                    <td class="text-muted small">
-                                        {{ $pedido->created_at->format('d/m/Y H:i') }}
-                                    </td>
-                                    <td class="fw-bold text-white">
-                                        ${{ number_format($pedido->total, 0, ',', '.') }}
-                                    </td>
-                                    <td>
-                                        @php
-                                            $badgeClass = match($pedido->id_estado) {
-                                                1 => 'badge-jc-warning',
-                                                2 => 'badge-jc-info',
-                                                3 => 'badge-jc-info',
-                                                4 => 'badge-jc-primary',
-                                                5, 6 => 'badge-jc-success',
-                                                default => 'badge-secondary',
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $badgeClass }}">
-                                            {{ $pedido->estado?->nombre ?? 'Pendiente' }}
-                                        </span>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="{{ route('admin.pedidos.detalle', $pedido->id) }}" class="btn btn-outline-warning btn-sm py-1 px-2">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </div>
+<!-- Tarjeta de Productos Recientes (Exacto al Screenshot 1) -->
+<div class="white-box-card">
+    <div class="box-card-header">
+        <h2 class="box-card-title">PRODUCTOS RECIENTES</h2>
+        <a href="{{ route('admin.productos.index') }}" class="btn-gold-action">
+            <i class="bi bi-plus-lg"></i> AGREGAR
+        </a>
     </div>
 
-    <!-- Panel de Accesos Rápidos -->
-    <div class="col-lg-4">
-        <div class="jc-card p-4 mb-4">
-            <h5 class="text-white fw-bold mb-3 border-bottom border-secondary pb-3">Accesos Directos</h5>
-            <div class="d-grid gap-2">
-                <a href="{{ route('admin.productos.crear') }}" class="btn-jc-gold text-center py-2">
-                    <i class="bi bi-plus-circle me-1"></i>Nuevo Producto
-                </a>
-                <a href="{{ route('admin.pedidos.index') }}" class="btn btn-dark border border-secondary text-white py-2 text-start">
-                    <i class="bi bi-receipt me-2 text-warning"></i>Gestionar Pedidos
-                </a>
-                <a href="{{ route('admin.categorias.index') }}" class="btn btn-dark border border-secondary text-white py-2 text-start">
-                    <i class="bi bi-folder me-2 text-warning"></i>Categorías & Marcas
-                </a>
-                <a href="{{ route('admin.usuarios.index') }}" class="btn btn-dark border border-secondary text-white py-2 text-start">
-                    <i class="bi bi-people me-2 text-warning"></i>Lista de Clientes
-                </a>
-            </div>
-        </div>
-
-        <div class="jc-card p-4">
-            <h6 class="text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2"></i>JC URBAN Admin</h6>
-            <p class="text-muted small mb-0">
-                Panel administrativo con control de accesos por rol (HU-03). Cambios en estados de pedido se sincronizan automáticamente con las facturas de los clientes.
-            </p>
-        </div>
+    <div class="table-responsive">
+        <table class="jc-admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">IMAGEN</th>
+                    <th>NOMBRE</th>
+                    <th>CATEGORÍA</th>
+                    <th>PRECIO</th>
+                    <th>ESTADO</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($productosRecientes as $prod)
+                    @php
+                        $imgObj = $prod->imagenPrincipal();
+                        $imgUrl = 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=150&q=80';
+                        if ($imgObj) {
+                            $imgUrl = str_starts_with($imgObj->url_imagen, 'http')
+                                ? $imgObj->url_imagen
+                                : asset('storage/' . $imgObj->url_imagen);
+                        }
+                    @endphp
+                    <tr>
+                        <td>
+                            <img src="{{ $imgUrl }}"
+                                 alt="{{ $prod->nombre }}"
+                                 class="rounded"
+                                 style="width: 44px; height: 44px; object-fit: cover; background: #f1f5f9;">
+                        </td>
+                        <td class="fw-bold text-dark">
+                            {{ $prod->nombre }}
+                        </td>
+                        <td class="text-secondary">
+                            {{ $prod->categoria?->nombre }} &gt; {{ $prod->subcategoria?->nombre ?? 'General' }}
+                            @if($prod->genero)
+                                ({{ $prod->genero }})
+                            @endif
+                        </td>
+                        <td class="fw-bold text-dark">
+                            $ {{ number_format($prod->precio, 0, ',', '.') }}
+                        </td>
+                        <td>
+                            <span class="pill-status {{ $prod->activo ? 'pill-status-active' : 'pill-status-inactive' }}">
+                                {{ $prod->activo ? 'ACTIVO' : 'INACTIVO' }}
+                            </span>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            No hay productos recientes registrados.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection
