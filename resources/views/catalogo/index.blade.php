@@ -5,65 +5,18 @@
 
 @section('content')
 <!-- ═══════════════════════════════════════════════════════════
-     CATEGORÍAS (EXACTO AL SCREENSHOT DEL USUARIO)
+     1. HERO BANNER CON VIDEO OFICIAL DE RELOJES (PRIMERO)
 ═══════════════════════════════════════════════════════════ -->
-<section class="cat-showcase-section">
-    <div class="container">
-        <h1 class="cat-showcase-heading">Categorías</h1>
-
-        <div class="row g-4 justify-content-center">
-            <!-- 1. Relojes -->
-            <div class="col-md-4">
-                <a href="{{ route('catalogo.categoria', 1) }}" class="cat-showcase-card">
-                    <div class="cat-showcase-img-box">
-                        <img src="{{ asset('img/categorias/relojes.jpg') }}"
-                             alt="Relojes"
-                             class="cat-showcase-img">
-                    </div>
-                    <h2 class="cat-showcase-name">Relojes</h2>
-                </a>
-            </div>
-
-            <!-- 2. Perfumes -->
-            <div class="col-md-4">
-                <a href="{{ route('catalogo.categoria', 2) }}" class="cat-showcase-card">
-                    <div class="cat-showcase-img-box">
-                        <img src="{{ asset('img/categorias/perfumes.jpg') }}"
-                             alt="Perfumes"
-                             class="cat-showcase-img">
-                    </div>
-                    <h2 class="cat-showcase-name">Perfumes</h2>
-                </a>
-            </div>
-
-            <!-- 3. Accesorios (con aura dorada en hover exacto al screenshot) -->
-            <div class="col-md-4">
-                <a href="{{ route('catalogo.categoria', 3) }}" class="cat-showcase-card">
-                    <div class="cat-showcase-img-box">
-                        <img src="{{ asset('img/categorias/accesorios.jpg') }}"
-                             alt="Accesorios"
-                             class="cat-showcase-img">
-                    </div>
-                    <h2 class="cat-showcase-name">Accesorios</h2>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     HERO BANNER CON VIDEO OFICIAL DE RELOJES
-═══════════════════════════════════════════════════════════ -->
-<section class="hero-section position-relative py-5 overflow-hidden" style="background: radial-gradient(circle at 50% 30%, #1c2026 0%, #0a0c0e 85%); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #1a1a1a;">
+<section class="hero-section position-relative py-5 overflow-hidden" style="background: radial-gradient(circle at 50% 30%, #1c2026 0%, #0a0c0e 85%); border-bottom: 1px solid #1a1a1a;">
     <div class="container py-md-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 text-center text-lg-start">
                 <span class="badge mb-3 text-uppercase" style="background: rgba(204,160,40,0.18); color: #fef08a; border: 1px solid rgba(204,160,40,0.5); padding: 0.55rem 1.1rem; letter-spacing: 2px; font-weight: 700; border-radius: 30px;">
                     <i class="bi bi-gem me-1 text-warning"></i>JC URBAN EXCLUSIVE
                 </span>
-                <h2 class="display-3 fw-bolder text-white mb-3" style="letter-spacing: -1px; line-height: 1.15;">
+                <h1 class="display-3 fw-bolder text-white mb-3" style="letter-spacing: -1px; line-height: 1.15;">
                     Estilo sin <span style="background: linear-gradient(135deg, #fff2a3 0%, #eab308 50%, #cca028 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(234,179,8,0.25);">Límites</span>
-                </h2>
+                </h1>
                 <p class="lead mb-4" style="color: #e2e8f0; font-size: 1.18rem; max-width: 580px; font-weight: 400; line-height: 1.65; text-shadow: 0 1px 3px rgba(0,0,0,0.6);">
                     Descubre nuestro catálogo de puro lujo y exclusividad. Relojería suiza de alta precisión, perfumería de autor y accesorios de diseñador con garantía total.
                 </p>
@@ -105,6 +58,53 @@
                         </video>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     2. CATEGORÍAS (DESPUÉS DEL BANNER PRINCIPAL)
+═══════════════════════════════════════════════════════════ -->
+<section class="cat-showcase-section">
+    <div class="container">
+        <h2 class="cat-showcase-heading">Categorías</h2>
+
+        <div class="row g-4 justify-content-center">
+            <!-- 1. Relojes -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 1) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/relojes.jpg') }}"
+                             alt="Relojes"
+                             class="cat-showcase-img">
+                    </div>
+                    <h3 class="cat-showcase-name">Relojes</h3>
+                </a>
+            </div>
+
+            <!-- 2. Perfumes -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 2) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/perfumes.jpg') }}"
+                             alt="Perfumes"
+                             class="cat-showcase-img">
+                    </div>
+                    <h3 class="cat-showcase-name">Perfumes</h3>
+                </a>
+            </div>
+
+            <!-- 3. Accesorios (con aura dorada en hover exacto al screenshot) -->
+            <div class="col-md-4">
+                <a href="{{ route('catalogo.categoria', 3) }}" class="cat-showcase-card">
+                    <div class="cat-showcase-img-box">
+                        <img src="{{ asset('img/categorias/accesorios.jpg') }}"
+                             alt="Accesorios"
+                             class="cat-showcase-img">
+                    </div>
+                    <h3 class="cat-showcase-name">Accesorios</h3>
+                </a>
             </div>
         </div>
     </div>
